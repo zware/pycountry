@@ -6,6 +6,7 @@ SYSTEM_PYTHON ?= python
 POETRY ?= $(or $(shell command -v poetry 2>/dev/null),$(VENV_DIR)/bin/poetry)
 # Calculate it once
 POETRY := $(POETRY)
+MYPY ?= $(POETRY) run mypy
 PYTHON ?= $(POETRY) run python
 PRE_COMMIT ?= $(POETRY) run pre-commit
 TOX ?= $(POETRY) run tox
@@ -88,6 +89,11 @@ lint: poetry.lock
 ## Run unit tests using every supported version of Python
 test: poetry.lock
 	$(TOX)
+
+.PHONY: typecheck
+## Run static typing checks on the codebase
+typecheck: poetry.lock
+	$(MYPY)
 
 .PHONY: clean
 ## Clean the project directory, removing all existing .gitignore-ed files
