@@ -95,6 +95,10 @@ test: poetry.lock
 typecheck: poetry.lock
 	$(MYPY)
 
+.PHONY: check
+## Run all checks, including linting, static typing, and unit tests
+check: lint typecheck test
+
 .PHONY: clean
 ## Clean the project directory, removing all existing .gitignore-ed files
 clean:
