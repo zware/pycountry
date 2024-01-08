@@ -69,6 +69,16 @@ $(VENV_DIR)/bin/poetry:
 	$(SYSTEM_PYTHON) -m venv --clear $(VENV_DIR)
 	$(VENV_DIR)/bin/python -m pip install -U poetry
 
+.PHONY: venv
+## Create a local virtual environment with poetry installed
+venv: $(VENV_DIR)/bin/poetry
+
+.PHONY: update
+## Update all dependencies
+update: poetry.lock
+	$(POETRY) update
+	$(PRE_COMMIT) autoupdate
+
 .PHONY: lint
 ## Run automatic formatting checkers and fixers against all files of all types
 lint: poetry.lock
